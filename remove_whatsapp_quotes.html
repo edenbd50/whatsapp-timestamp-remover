@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.left {
+  padding: 20px;
+  float: left;
+  width: 50%; /* The width is 20%, by default */
+}
+
+.main {
+  padding: 20px;
+  float: left;
+  width: 50%; /* The width is 60%, by default */
+}
+
+/* Use a media query to add a break point at 800px: */
+@media screen and (max-width: 800px) {
+  .left, .main, .right {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+}
+
+
+body{
+  background-image: url('https://i.pinimg.com/originals/85/ec/df/85ecdf1c3611ecc9b7fa85282d9526e0.jpg');
+	color: white;
+}
+
+.xx{
+	background-color: #202c33;
+	padding: 20px;
+}
+
+</style>
+</head>
+<body onload="load()">
+<div class="xx">
+<h2 style="text-align:center;">Whatsapp Timestamp remover</h2>
+</div>
+<div class="left">
+  <h2>Paste here:</h2>
+<textarea id="textArea" style="width:100%;" onchange="remove"
+ name="textArea" placeholder="[13:07, 25/04/2022] Fiona: blabla bla..."
+ rows="8" cols="50"></textarea>
+</br>
+</div>
+
+<div class="main">
+	<div style="text-align:center;">
+		<h2>Results:
+			<button onclick='assignAlignment("left")'>Left</button>
+			<button onclick='assignAlignment("center")'>Center</button>
+			<button onclick='assignAlignment("right")'>Right</button>
+			<br>
+			<button onclick="copyClipboard()">Copy</button>
+		</h2>
+		<div>
+		</div>
+	<div>
+
+<br>
+<div class="xx">
+<p style="text-align:right" id="results"></p>
+  
+</div>
+</div>
+
+
+<script>
+function assignAlignment(align){
+	document.getElementById("results").style = "text-align:"+align ;
+}
+
+function load(){
+	var text ="[13:07, 25/04/2022] Fiona: blabla bla...";
+	remove(text);
+	const textArea = document.getElementById('textArea');
+	textArea.addEventListener('input', () => {
+		if(textArea.value == ""){
+			text ="[13:07, 25/04/2022] Fiona: blabla bla...";
+			remove(text);
+		}else{
+		remove(textArea.value);
+		}
+		
+	});
+
+}
+function remove(text){
+	text = text.replace(new RegExp("(\\[.*?\\]\\s.*?:\\s)"),"\n");
+	const regex = /(\[.*?\]\s.*?:\s)/ig;
+	text = text.replaceAll(regex, '\n');
+	text = text.replaceAll('\n\n', '\n');
+	
+	document.getElementById("results").innerText = text;
+}
+function copyClipboard(){
+	var text = document.getElementById("results").innerText;
+	navigator.clipboard.writeText(text);
+}
+
+</script>
+</body>
+</html>

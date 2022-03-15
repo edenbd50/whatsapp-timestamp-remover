@@ -52,9 +52,81 @@ body{
 	background-color: #202c33;
 	padding: 20px;
 }
-textarea,p {
+textarea,p,button {
 font-size: 25px;
 }
+h2{
+	font-size: 30px;
+}
+
+
+
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+#cp{
+	background:#e2e2e2;
+	margin:5px;
+	padding:5px;
+	border: 1px solid black;
+	border-radius: 5px;
+	color: black;
+}
+
 </style>
 </head>
 <body onload="load()">
@@ -74,11 +146,14 @@ font-size: 25px;
 	<div class="main">
 		<div style="text-align:center;">
 			<h2>Results:
-				<button onclick='assignAlignment("left")'>Left</button>
-				<button onclick='assignAlignment("center")'>Center</button>
-				<button onclick='assignAlignment("right")'>Right</button>
+				<div  id="cp" onclick='assignAlignment("left")'>Left</div>
+				<div id="cp"  onclick='assignAlignment("center")'>Center</div>
+				<div  id="cp" onclick='assignAlignment("right")'>Right</div>
+	
 				<br>
-				<button onclick="copyClipboard()">Copy</button>
+								
+				<div class="popup"  id="cp" onclick="copyClipboard()">Copy
+				  <span class="popuptext" id="myPopup">Copied!</span>
 			</h2>
 		<div>
 	</div>
@@ -96,7 +171,6 @@ font-size: 25px;
 function assignAlignment(align){
 	document.getElementById("results").style = "text-align:"+align ;
 }
-
 function load(){
 	var text ="[13:07, 25/04/2022] Fiona: blabla bla...";
 	remove(text);
@@ -123,6 +197,9 @@ function remove(text){
 function copyClipboard(){
 	var text = document.getElementById("results").innerText;
 	navigator.clipboard.writeText(text);
+	var popup = document.getElementById("myPopup");
+	popup.classList.toggle("show");
+	setTimeout(()=>{popup.classList.toggle("show");},2000);
 }
 
 </script>
